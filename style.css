@@ -242,3 +242,7 @@ h3 { font-size: 1rem; margin: 20px 0 8px; color: var(--text-dim); }
 #total-progress-bar { height: 100%; width: 0; background: var(--accent); transition: width 1s linear; }
 .step-actions { display: flex; gap: 8px; justify-content: center; margin: 8px 0 12px; }
 .history-item { cursor: pointer; }
+
+.from-min { display: flex; align-items: center; gap: 4px; font-size: 0.75rem; color: var(--text-dim); }
+.from-min input { width: 52px; padding: 6px; border-radius: 8px; background: var(--bg); border: 1px solid var(--border); color: var(--text); }
+.workout-card > div:last-child { flex-wrap: wrap; align-items: center; justify-content: flex-end; }

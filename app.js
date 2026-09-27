@@ -13,6 +13,12 @@ let manualOffset = 0;
 let lastSentTarget = null;
 let lastSentAt = 0;
 let paused = false;
+// El tiempo se calcula con el reloj real (Date.now), no contando ticks: si la app pasa a
+// segundo plano, el navegador ralentiza los temporizadores y contar ticks retrasa el entreno.
+let sessionWallStart = 0; // ms
+let pausedMs = 0;
+let pauseStartedAt = null;
+let lastAutosaveAt = 0;
 let tickTimer = null;
 let sessionSamples = []; // {t, power, target, cadence, hr, speedKmh}
 let sessionStartedAt = null;
@@ -37,7 +43,7 @@ function releaseScreen() {
   wakeLock = null;
 }
 document.addEventListener('visibilitychange', () => {
-  if (document.visibilityState === 'visible' && tickTimer) keepScreenOn();
+  if (document.visibilityState === 'visible' && tickTimer) { keepScreenOn(); tick(); }
 });
 
 function esc(str) {
@@ -155,9 +161,13 @@ async function renderWorkoutList() {
       </div>
       <div style="display:flex; gap:8px;">
         <button class="btn-secondary btn-use-base">Usar como base</button>
+        <label class="from-min" title="Empezar a mitad del entreno">desde min <input type="number" min="0" step="1" value="0" class="inp-from"></label>
         <button class="btn-primary btn-start">Empezar</button>
       </div>`;
-    card.querySelector('.btn-start').addEventListener('click', () => startSession(w));
+    card.querySelector('.btn-start').addEventListener('click', () => {
+      const min = parseFloat(card.querySelector('.inp-from').value) || 0;
+      startSession(w, Math.round(min * 60));
+    });
     card.querySelector('.btn-use-base').addEventListener('click', () => loadIntoBuilder(w));
     list.appendChild(card);
   });
@@ -259,11 +269,28 @@ function currentStep() {
   return currentWorkout.steps[stepIndex];
 }
 
-function startSession(workoutTemplate) {
+function locate(elapsed) {
+  let cum = 0;
+  for (let i = 0; i < currentWorkout.steps.length; i++) {
+    const d = currentWorkout.steps[i].duration_s;
+    if (elapsed < cum + d) return { idx: i, inStep: elapsed - cum };
+    cum += d;
+  }
+  return { idx: currentWorkout.steps.length, inStep: 0 };
+}
+
+function startSession(workoutTemplate, startAtS = 0) {
   currentWorkout = { name: workoutTemplate.name, steps: workoutTemplate.steps.map((s) => ({ ...s })) };
-  stepIndex = 0;
-  stepElapsed = 0;
-  runningElapsed = 0;
+  const total = workoutTotalSeconds(currentWorkout);
+  startAtS = Math.max(0, Math.min(startAtS, total - 1));
+  sessionWallStart = Date.now() - startAtS * 1000;
+  pausedMs = 0;
+  pauseStartedAt = null;
+  lastAutosaveAt = Date.now();
+  const loc = locate(startAtS);
+  stepIndex = loc.idx;
+  stepElapsed = loc.inStep;
+  runningElapsed = startAtS;
   manualOffset = 0;
   lastSentTarget = null;
   lastSentAt = 0;
@@ -318,8 +345,7 @@ function skipStep() {
   const step = currentStep();
   if (!step) return;
   // El bloque se acorta a lo realmente hecho, para que el resumen cuadre.
-  step.duration_s = Math.max(1, stepElapsed);
-  stepElapsed = step.duration_s - 1;
+  step.duration_s = Math.max(0, stepElapsed);
   toast('Bloque saltado');
   tick();
 }
@@ -346,16 +372,13 @@ function updateStepBanner() {
 }
 
 async function tick() {
-  if (paused) return;
-  const step = currentStep();
-  if (!step) return;
+  if (paused || !currentWorkout) return;
+  if (!currentStep()) return;
 
-  stepElapsed += 1;
-  runningElapsed += 1;
-
-  if (stepElapsed >= step.duration_s) {
-    stepIndex += 1;
-    stepElapsed = 0;
+  runningElapsed = Math.floor((Date.now() - sessionWallStart - pausedMs) / 1000);
+  const loc = locate(runningElapsed);
+  if (loc.idx !== stepIndex) {
+    stepIndex = loc.idx;
     manualOffset = 0;
     if (stepIndex >= currentWorkout.steps.length) {
       endSession();
@@ -364,6 +387,7 @@ async function tick() {
     updateStepBanner();
     toast('Siguiente bloque: ' + currentStep().name);
   }
+  stepElapsed = loc.inStep;
 
   const activeStep = currentStep();
   const baseTarget = targetPowerAt(activeStep, stepElapsed);
@@ -398,13 +422,15 @@ async function tick() {
   $('live-speed').textContent = latest.speedKmh != null ? latest.speedKmh.toFixed(1) : '--';
   $('step-timer').textContent = fmtClock(activeStep.duration_s - stepElapsed);
   updateTotals();
-  if (runningElapsed % 30 === 0) autosaveSession();
+  if (Date.now() - lastAutosaveAt >= 30000) { lastAutosaveAt = Date.now(); autosaveSession(); }
 
   pushLiveChartPoint(sample);
 }
 
 function togglePause() {
   paused = !paused;
+  if (paused) pauseStartedAt = Date.now();
+  else if (pauseStartedAt) { pausedMs += Date.now() - pauseStartedAt; pauseStartedAt = null; }
   $('btn-pause').textContent = paused ? '▶' : '⏸';
   if (trainer.connected) {
     if (paused) trainer.pause().catch(() => {});
