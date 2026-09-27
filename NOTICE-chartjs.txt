@@ -1,0 +1,1 @@
+Chart.js (vendor/chart.umd.min.js) - MIT License, (c) Chart.js Contributors

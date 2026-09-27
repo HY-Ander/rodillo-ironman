@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Rodillo IRONMAN</title>
+<meta name="theme-color" content="#0f172a">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="stylesheet" href="style.css">
+<script src="chart.umd.min.js"></script>
+</head>
+<body>
+
+<header class="topbar">
+  <h1>Rodillo IRONMAN</h1>
+  <div class="conn-badges">
+    <button id="btn-connect-trainer" class="badge badge-off">🚴 Rodillo</button>
+    <button id="btn-connect-hr" class="badge badge-off">❤️ FC</button>
+  </div>
+</header>
+
+<main>
+
+  <!-- ===================== PANTALLA: SELECCIÓN DE ENTRENO ===================== -->
+  <section id="screen-select" class="screen active">
+    <h2>Elige el entreno de hoy</h2>
+    <div id="workout-list" class="workout-list"></div>
+
+    <details class="builder">
+      <summary>Crear / editar entreno a medida</summary>
+      <div id="builder-body"></div>
+      <div class="builder-actions">
+        <button id="btn-add-step" class="btn-secondary">+ Añadir bloque</button>
+        <button id="btn-save-workout" class="btn-primary">Guardar entreno</button>
+      </div>
+    </details>
+
+    <details class="history">
+      <summary>Historial de sesiones</summary>
+      <div id="history-list"></div>
+    </details>
+  </section>
+
+  <!-- ===================== PANTALLA: EN VIVO ===================== -->
+  <section id="screen-live" class="screen">
+    <div class="live-top">
+      <div class="stat stat-big">
+        <span id="live-power">--</span><small>W</small>
+        <div class="target-line">objetivo <span id="live-target">--</span> W</div>
+      </div>
+      <div class="stat">
+        <span id="live-cadence">--</span><small>rpm</small>
+        <div class="stat-label">Cadencia</div>
+      </div>
+      <div class="stat">
+        <span id="live-hr">--</span><small>bpm</small>
+        <div class="stat-label">FC</div>
+      </div>
+      <div class="stat">
+        <span id="live-speed">--</span><small>km/h</small>
+        <div class="stat-label">Velocidad</div>
+      </div>
+    </div>
+
+    <div class="step-banner">
+      <div id="step-name">—</div>
+      <div id="step-timer">00:00</div>
+      <div id="step-next">Siguiente: —</div>
+    </div>
+
+    <div class="power-adjust">
+      <button id="btn-power-down" class="btn-round">−5W</button>
+      <button id="btn-pause" class="btn-round btn-pause">⏸</button>
+      <button id="btn-power-up" class="btn-round">+5W</button>
+    </div>
+
+    <canvas id="live-chart" height="140"></canvas>
+
+    <button id="btn-end-session" class="btn-danger">Terminar sesión</button>
+  </section>
+
+  <!-- ===================== PANTALLA: RESUMEN ===================== -->
+  <section id="screen-summary" class="screen">
+    <h2>Resumen de la sesión</h2>
+    <div id="summary-stats" class="summary-stats"></div>
+    <canvas id="summary-chart" height="180"></canvas>
+    <h3>Por bloque</h3>
+    <div id="summary-intervals"></div>
+    <div class="builder-actions">
+      <button id="btn-export-csv" class="btn-secondary">Descargar CSV</button>
+      <button id="btn-back-home" class="btn-primary">Volver al inicio</button>
+    </div>
+  </section>
+
+</main>
+
+<div id="toast" class="toast"></div>
+
+<script src="ftms.js"></script>
+<script src="heartrate.js"></script>
+<script src="storage.js"></script>
+<script src="workouts.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
