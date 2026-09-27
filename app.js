@@ -20,6 +20,7 @@ let sessionStartedAt = null;
 let builderSteps = [];
 let liveChart = null;
 let summaryChart = null;
+let viewedSession = null; // sesión que se está viendo en el resumen (para el CSV)
 
 const LIVE_WINDOW_S = 300;
 
@@ -59,6 +60,13 @@ function toast(msg) {
   el.classList.add('show');
   clearTimeout(toastTimer);
   toastTimer = setTimeout(() => el.classList.remove('show'), 3200);
+}
+
+function fmtHMS(totalSeconds) {
+  const s = Math.max(0, Math.round(totalSeconds));
+  const h = Math.floor(s / 3600);
+  const m = Math.floor((s % 3600) / 60);
+  return h + ':' + String(m).padStart(2, '0') + ':' + String(s % 60).padStart(2, '0');
 }
 
 function fmtClock(totalSeconds) {
@@ -235,7 +243,12 @@ async function renderHistory() {
     const row = document.createElement('div');
     row.className = 'history-item';
     const date = new Date(s.startedAt).toLocaleString('es-ES', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' });
-    row.innerHTML = `<span class="hi-main">${date} — ${esc(s.workoutName)}</span><span>${Math.round(s.summary.durationS / 60)}' · ${s.summary.avgPower}W avg</span>`;
+    row.innerHTML = `<span class="hi-main">${date} — ${esc(s.workoutName)}${s.inProgress ? ' (incompleta)' : ''}</span><span>${Math.round(s.summary.durationS / 60)}' · ${s.summary.avgPower ?? '--'}W avg ›</span>`;
+    row.addEventListener('click', () => {
+      viewedSession = s;
+      renderSummaryScreen(s);
+      showScreen('screen-summary');
+    });
     list.appendChild(row);
   });
 }
@@ -260,12 +273,69 @@ function startSession(workoutTemplate) {
 
   $('btn-pause').textContent = '⏸';
   showScreen('screen-live');
+  updateTotals();
   initLiveChart();
   updateStepBanner();
   if (tickTimer) clearInterval(tickTimer);
   tickTimer = setInterval(tick, 1000);
   keepScreenOn();
   toast('Sesión empezada: ' + currentWorkout.name);
+}
+
+function remainingSeconds() {
+  let rem = currentStep() ? currentStep().duration_s - stepElapsed : 0;
+  for (let i = stepIndex + 1; i < currentWorkout.steps.length; i++) rem += currentWorkout.steps[i].duration_s;
+  return rem;
+}
+
+function updateTotals() {
+  const rem = remainingSeconds();
+  $('total-elapsed').textContent = fmtHMS(runningElapsed);
+  $('total-remaining').textContent = fmtHMS(rem);
+  $('step-count').textContent = (stepIndex + 1) + '/' + currentWorkout.steps.length;
+  const total = runningElapsed + rem;
+  $('total-progress-bar').style.width = (total ? (100 * runningElapsed) / total : 0) + '%';
+}
+
+// Guardado automático cada 30 s: si el móvil se bloquea o se cierra la app,
+// la sesión queda en el historial hasta donde llegaste.
+function buildSessionRecord(inProgress) {
+  return {
+    id: 'session-' + sessionStartedAt,
+    startedAt: sessionStartedAt,
+    workoutName: currentWorkout.name,
+    workout: currentWorkout,
+    samples: sessionSamples,
+    summary: computeSummary(),
+    inProgress,
+  };
+}
+function autosaveSession() {
+  Storage.saveSession(buildSessionRecord(true)).catch((err) => console.warn('autosave:', err));
+}
+
+function skipStep() {
+  const step = currentStep();
+  if (!step) return;
+  // El bloque se acorta a lo realmente hecho, para que el resumen cuadre.
+  step.duration_s = Math.max(1, stepElapsed);
+  stepElapsed = step.duration_s - 1;
+  toast('Bloque saltado');
+  tick();
+}
+
+function extendStep(seconds) {
+  const step = currentStep();
+  if (!step) return;
+  if (step.startW !== step.endW) {
+    // En una rampa, alargar cambiaría la pendiente: se añade tiempo al final a potencia final.
+    currentWorkout.steps.splice(stepIndex + 1, 0, { ...step, name: step.name + ' (+)', duration_s: seconds, startW: step.endW });
+  } else {
+    step.duration_s += seconds;
+  }
+  updateTotals();
+  updateStepBanner();
+  toast('+' + Math.round(seconds / 60) + "' al bloque");
 }
 
 function updateStepBanner() {
@@ -327,6 +397,8 @@ async function tick() {
   $('live-hr').textContent = latest.hr ?? '--';
   $('live-speed').textContent = latest.speedKmh != null ? latest.speedKmh.toFixed(1) : '--';
   $('step-timer').textContent = fmtClock(activeStep.duration_s - stepElapsed);
+  updateTotals();
+  if (runningElapsed % 30 === 0) autosaveSession();
 
   pushLiveChartPoint(sample);
 }
@@ -354,16 +426,9 @@ async function endSession() {
   releaseScreen();
   if (trainer.connected) trainer.pause().catch(() => {});
 
-  const summary = computeSummary();
-  const session = {
-    id: 'session-' + sessionStartedAt,
-    startedAt: sessionStartedAt,
-    workoutName: currentWorkout.name,
-    workout: currentWorkout,
-    samples: sessionSamples,
-    summary,
-  };
+  const session = buildSessionRecord(false);
   await Storage.saveSession(session);
+  viewedSession = session;
 
   renderSummaryScreen(session);
   showScreen('screen-summary');
@@ -436,7 +501,7 @@ function renderSummaryScreen(session) {
 
 function exportSessionCsv() {
   Storage.getAllSessions().then((sessions) => {
-    const session = sessions[0]; // la última grabada
+    const session = viewedSession || sessions[0]; // la que estás viendo, o la última
     if (!session) { toast('No hay sesión que exportar'); return; }
     const lines = ['t_s,power_w,target_w,cadence_rpm,hr_bpm,speed_kmh'];
     session.samples.forEach((s) => {
@@ -545,6 +610,10 @@ function init() {
   $('btn-pause').addEventListener('click', togglePause);
   $('btn-power-up').addEventListener('click', () => adjustPower(5));
   $('btn-power-down').addEventListener('click', () => adjustPower(-5));
+  $('btn-step-skip').addEventListener('click', () => {
+    if (confirm('¿Saltar al siguiente bloque?')) skipStep();
+  });
+  $('btn-step-extend').addEventListener('click', () => extendStep(60));
   $('btn-end-session').addEventListener('click', () => {
     if (confirm('¿Terminar la sesión ahora?')) endSession();
   });
@@ -552,6 +621,10 @@ function init() {
   $('btn-back-home').addEventListener('click', () => {
     showScreen('screen-select');
     renderHistory();
+  });
+
+  window.addEventListener('beforeunload', (e) => {
+    if (tickTimer) { autosaveSession(); e.preventDefault(); e.returnValue = ''; }
   });
 
   if (navigator.serviceWorker) {

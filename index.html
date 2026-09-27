@@ -64,6 +64,13 @@
       </div>
     </div>
 
+    <div class="total-banner">
+      <div><small>Llevas</small><span id="total-elapsed">0:00:00</span></div>
+      <div><small>Bloque</small><span id="step-count">1/1</span></div>
+      <div><small>Quedan</small><span id="total-remaining">0:00:00</span></div>
+    </div>
+    <div class="total-progress"><div id="total-progress-bar"></div></div>
+
     <div class="step-banner">
       <div id="step-name">—</div>
       <div id="step-timer">00:00</div>
@@ -74,6 +81,10 @@
       <button id="btn-power-down" class="btn-round">−5W</button>
       <button id="btn-pause" class="btn-round btn-pause">⏸</button>
       <button id="btn-power-up" class="btn-round">+5W</button>
+    </div>
+    <div class="step-actions">
+      <button id="btn-step-extend" class="btn-secondary">+1' al bloque</button>
+      <button id="btn-step-skip" class="btn-secondary">Saltar bloque ⏭</button>
     </div>
 
     <canvas id="live-chart" height="140"></canvas>

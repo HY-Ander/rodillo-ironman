@@ -232,3 +232,13 @@ h3 { font-size: 1rem; margin: 20px 0 8px; color: var(--text-dim); }
   .live-top { grid-template-columns: 1fr 1fr; }
   .stat-big { grid-column: 1 / -1; }
 }
+
+/* v1.2: tiempo total y acciones de bloque */
+.total-banner { display: grid; grid-template-columns: 1fr auto 1fr; gap: 8px; margin: 12px 0 6px; text-align: center; }
+.total-banner div { display: flex; flex-direction: column; }
+.total-banner small { color: var(--text-dim); font-size: 0.75rem; }
+.total-banner span { font-size: 1.25rem; font-variant-numeric: tabular-nums; font-weight: 600; }
+.total-progress { height: 6px; background: var(--border); border-radius: 3px; overflow: hidden; margin-bottom: 10px; }
+#total-progress-bar { height: 100%; width: 0; background: var(--accent); transition: width 1s linear; }
+.step-actions { display: flex; gap: 8px; justify-content: center; margin: 8px 0 12px; }
+.history-item { cursor: pointer; }
