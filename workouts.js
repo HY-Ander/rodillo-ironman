@@ -8,6 +8,24 @@
 
 const PRESET_WORKOUTS = [
   {
+    id: 'plan-2026-09-27-larga',
+    name: "HOY 27/09 · Bici larga 3:30 (ritmo IM + 3×20')",
+    steps: [
+      { name: 'Calentamiento', type: 'warmup', duration_s: 9 * 60, startW: 120, endW: 135 },
+      { name: 'Acelerón de cadencia 30" (sube rpm, mismos W)', type: 'interval', duration_s: 30, startW: 135, endW: 135 },
+      { name: 'Calentamiento', type: 'warmup', duration_s: 5 * 60, startW: 135, endW: 145 },
+      { name: 'Acelerón de cadencia 30" (sube rpm, mismos W)', type: 'interval', duration_s: 30, startW: 145, endW: 145 },
+      { name: 'Calentamiento', type: 'warmup', duration_s: 5 * 60, startW: 145, endW: 150 },
+      { name: 'Bloque 1 — ritmo IM parte baja (155-165)', type: 'steady', duration_s: 50 * 60, startW: 160, endW: 160 },
+      { name: "Serie 1 — 20' parte alta (165-174)", type: 'interval', duration_s: 20 * 60, startW: 170, endW: 170 },
+      { name: 'Bloque 2 — ritmo IM parte baja (155-165)', type: 'steady', duration_s: 30 * 60, startW: 160, endW: 160 },
+      { name: "Serie 2 — 20' parte alta (165-174)", type: 'interval', duration_s: 20 * 60, startW: 170, endW: 170 },
+      { name: 'Bloque 3 — ritmo IM parte baja (155-165)', type: 'steady', duration_s: 20 * 60, startW: 160, endW: 160 },
+      { name: "Serie 3 — LA QUE CUENTA: sostener con piernas cargadas", type: 'interval', duration_s: 20 * 60, startW: 170, endW: 170 },
+      { name: 'Vuelta a la calma', type: 'cooldown', duration_s: 30 * 60, startW: 145, endW: 130 },
+    ],
+  },
+  {
     id: 'preset-4x5',
     name: "Calidad 4×5' (232-245W)",
     steps: [
