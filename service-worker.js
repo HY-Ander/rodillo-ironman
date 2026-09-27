@@ -1,7 +1,7 @@
 // service-worker.js — cachea los archivos estáticos para que la app instalada
 // abra al instante. No cachea datos de sesión (eso vive en IndexedDB, no aquí).
 
-const CACHE_NAME = 'rodillo-ironman-v2';
+const CACHE_NAME = 'rodillo-ironman-v3';
 const ASSETS = [
   './',
   './index.html',
@@ -33,7 +33,7 @@ self.addEventListener('activate', (event) => {
 self.addEventListener('fetch', (event) => {
   if (event.request.method !== 'GET') return;
   event.respondWith(
-    fetch(event.request)
+    fetch(event.request, { cache: 'no-cache' }) // siempre pregunta al servidor si hay versión nueva
       .then((resp) => {
         const copy = resp.clone();
         caches.open(CACHE_NAME).then((c) => c.put(event.request, copy)).catch(() => {});
