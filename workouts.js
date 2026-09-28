@@ -12,7 +12,7 @@ const PRESET_WORKOUTS = [
     name: "HOY lun 28/09 · Aeróbico suave 75' (FC < 125)",
     steps: [
       { name: 'Calentamiento', type: 'warmup', duration_s: 10 * 60, startW: 110, endW: 145 },
-      { name: 'Aeróbico 145-165 W · cadencia 85-95 · FC < 125', type: 'steady', duration_s: 55 * 60, startW: 155, endW: 155 },
+      { name: 'Aeróbico 165 W (alto de 145-165) · cadencia 85-95 · FC < 125', type: 'steady', duration_s: 55 * 60, startW: 165, endW: 165 },
       { name: 'Vuelta a la calma', type: 'cooldown', duration_s: 10 * 60, startW: 140, endW: 110 },
     ],
   },
