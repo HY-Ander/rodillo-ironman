@@ -108,6 +108,7 @@ async function connectTrainer() {
       if (d.power !== null) latest.power = d.power;
       if (d.cadence !== null) latest.cadence = d.cadence;
       if (d.speedKmh !== null) latest.speedKmh = d.speedKmh;
+      onSensorData();
     };
     await trainer.connect();
   } catch (err) {
@@ -135,7 +136,7 @@ async function connectHR() {
         btn.textContent = '❤️ FC';
       }
     };
-    hr.onData = (bpm) => { latest.hr = bpm; };
+    hr.onData = (bpm) => { latest.hr = bpm; onSensorData(); };
     await hr.connect();
   } catch (err) {
     console.error(err);
@@ -371,7 +372,16 @@ function updateStepBanner() {
   $('step-next').textContent = 'Siguiente: ' + (next ? next.name : 'fin de la sesión');
 }
 
+// Cada lectura del rodillo (~1/s) hace avanzar el entreno. Los eventos Bluetooth siguen
+// llegando aunque la app esté detrás de otras ventanas, mientras que los temporizadores
+// del navegador se ralentizan. El setInterval queda como respaldo (p. ej. sin rodillo).
+let lastTickAt = 0;
+function onSensorData() {
+  if (tickTimer && Date.now() - lastTickAt >= 900) tick();
+}
+
 async function tick() {
+  lastTickAt = Date.now();
   if (paused || !currentWorkout) return;
   if (!currentStep()) return;
 
@@ -413,7 +423,10 @@ async function tick() {
     hr: latest.hr,
     speedKmh: latest.speedKmh,
   };
-  sessionSamples.push(sample);
+  // Una muestra por segundo: si ya hay una de este segundo, se actualiza.
+  const last = sessionSamples[sessionSamples.length - 1];
+  if (last && last.t === sample.t) sessionSamples[sessionSamples.length - 1] = sample;
+  else sessionSamples.push(sample);
 
   $('live-power').textContent = latest.power ?? '--';
   $('live-target').textContent = target;
@@ -424,7 +437,7 @@ async function tick() {
   updateTotals();
   if (Date.now() - lastAutosaveAt >= 30000) { lastAutosaveAt = Date.now(); autosaveSession(); }
 
-  pushLiveChartPoint(sample);
+  if (!last || last.t !== sample.t) pushLiveChartPoint(sample);
 }
 
 function togglePause() {
