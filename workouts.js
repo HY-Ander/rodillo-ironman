@@ -8,8 +8,17 @@
 
 const PRESET_WORKOUTS = [
   {
+    id: 'plan-2026-09-28-suave',
+    name: "HOY lun 28/09 · Aeróbico suave 75' (FC < 125)",
+    steps: [
+      { name: 'Calentamiento', type: 'warmup', duration_s: 10 * 60, startW: 110, endW: 145 },
+      { name: 'Aeróbico 145-165 W · cadencia 85-95 · FC < 125', type: 'steady', duration_s: 55 * 60, startW: 155, endW: 155 },
+      { name: 'Vuelta a la calma', type: 'cooldown', duration_s: 10 * 60, startW: 140, endW: 110 },
+    ],
+  },
+  {
     id: 'plan-2026-09-27-larga',
-    name: "HOY 27/09 · Bici larga 3:30 (ritmo IM + 3×20')",
+    name: "Dom 27/09 · Bici larga 3:30 (ritmo IM + 3×20')",
     steps: [
       { name: 'Calentamiento', type: 'warmup', duration_s: 9 * 60, startW: 120, endW: 135 },
       { name: 'Acelerón de cadencia 30" (sube rpm, mismos W)', type: 'interval', duration_s: 30, startW: 135, endW: 135 },
