@@ -8,6 +8,21 @@
 
 const PRESET_WORKOUTS = [
   {
+    id: 'plan-2026-10-04-larga',
+    name: "HOY dom 04/10 · Bici larga 3:30 · 3×30' ritmo IM (come cada 15')",
+    steps: [
+      { name: 'Calentamiento', type: 'warmup', duration_s: 20 * 60, startW: 120, endW: 150 },
+      { name: 'Base (155-162) · FC < 125', type: 'steady', duration_s: 40 * 60, startW: 158, endW: 158 },
+      { name: 'Ritmo IM 1/3 (165-172) · FC < 135', type: 'interval', duration_s: 30 * 60, startW: 168, endW: 168 },
+      { name: 'Suave (150-155)', type: 'recovery', duration_s: 10 * 60, startW: 152, endW: 152 },
+      { name: 'Ritmo IM 2/3 (165-172) · FC < 135', type: 'interval', duration_s: 30 * 60, startW: 168, endW: 168 },
+      { name: 'Suave (150-155)', type: 'recovery', duration_s: 10 * 60, startW: 152, endW: 152 },
+      { name: 'Ritmo IM 3/3 (165-172) · FC < 135', type: 'interval', duration_s: 30 * 60, startW: 168, endW: 168 },
+      { name: 'Base (150-158)', type: 'steady', duration_s: 20 * 60, startW: 154, endW: 154 },
+      { name: 'Vuelta a la calma', type: 'cooldown', duration_s: 20 * 60, startW: 145, endW: 130 },
+    ],
+  },
+  {
     id: 'plan-2026-09-28-suave',
     name: "HOY lun 28/09 · Aeróbico suave 75' (FC < 125)",
     steps: [
