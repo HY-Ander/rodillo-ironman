@@ -8,6 +8,22 @@
 
 const PRESET_WORKOUTS = [
   {
+    id: 'plan-2026-10-06-ftp',
+    name: "Mar 06/10 · TEST FTP 20' (empieza en 265 W, ajusta ±5 W)",
+    steps: [
+      { name: 'Calentamiento', type: 'warmup', duration_s: 15 * 60, startW: 120, endW: 180 },
+      { name: 'Activación 1/3', type: 'interval', duration_s: 60, startW: 280, endW: 280 },
+      { name: 'Suave', type: 'recovery', duration_s: 60, startW: 140, endW: 140 },
+      { name: 'Activación 2/3', type: 'interval', duration_s: 60, startW: 280, endW: 280 },
+      { name: 'Suave', type: 'recovery', duration_s: 60, startW: 140, endW: 140 },
+      { name: 'Activación 3/3', type: 'interval', duration_s: 60, startW: 280, endW: 280 },
+      { name: 'Suave', type: 'recovery', duration_s: 60, startW: 140, endW: 140 },
+      { name: 'Suave antes del test', type: 'recovery', duration_s: 5 * 60, startW: 140, endW: 140 },
+      { name: "TEST 20' · +5 W cada 3-4' si vas sobrado · últimos 5' a tope · cadencia 88-95", type: 'interval', duration_s: 20 * 60, startW: 265, endW: 265 },
+      { name: 'Vuelta a la calma', type: 'cooldown', duration_s: 10 * 60, startW: 140, endW: 100 },
+    ],
+  },
+  {
     id: 'plan-2026-10-04-larga',
     name: "HOY dom 04/10 · Bici larga 3:30 · 3×30' ritmo IM (come cada 15')",
     steps: [
