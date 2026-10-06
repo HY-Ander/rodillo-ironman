@@ -8,6 +8,19 @@
 
 const PRESET_WORKOUTS = [
   {
+    id: 'plan-2026-10-10-larga',
+    name: "Sáb 10/10 · Bici larga 2:30 · 2×30' ritmo IM 176 W (FTP 263) · come cada 15'",
+    steps: [
+      { name: 'Calentamiento', type: 'warmup', duration_s: 20 * 60, startW: 125, endW: 158 },
+      { name: 'Base (163) · FC < 125', type: 'steady', duration_s: 30 * 60, startW: 163, endW: 163 },
+      { name: 'Ritmo IM 1/2 (176) · FC > 135 → baja 5 W', type: 'interval', duration_s: 30 * 60, startW: 176, endW: 176 },
+      { name: 'Suave (158)', type: 'recovery', duration_s: 10 * 60, startW: 158, endW: 158 },
+      { name: 'Ritmo IM 2/2 (176) · FC > 135 → baja 5 W', type: 'interval', duration_s: 30 * 60, startW: 176, endW: 176 },
+      { name: 'Base (158)', type: 'steady', duration_s: 20 * 60, startW: 158, endW: 158 },
+      { name: 'Vuelta a la calma', type: 'cooldown', duration_s: 10 * 60, startW: 145, endW: 125 },
+    ],
+  },
+  {
     id: 'plan-2026-10-06-ftp',
     name: "Mar 06/10 · TEST FTP 20' (empieza en 265 W, ajusta ±5 W)",
     steps: [
