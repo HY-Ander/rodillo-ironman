@@ -8,6 +8,19 @@
 
 const PRESET_WORKOUTS = [
   {
+    id: 'plan-2026-10-17-activacion',
+    name: "Sáb 17/10 · Activación 45' con 3×3' a 180 W (víspera del Big Day)",
+    steps: [
+      { name: 'Suave', type: 'warmup', duration_s: 15 * 60, startW: 130, endW: 150 },
+      { name: 'Ritmo IM 1/3 (180)', type: 'interval', duration_s: 3 * 60, startW: 180, endW: 180 },
+      { name: 'Suave', type: 'recovery', duration_s: 2 * 60, startW: 150, endW: 150 },
+      { name: 'Ritmo IM 2/3 (180)', type: 'interval', duration_s: 3 * 60, startW: 180, endW: 180 },
+      { name: 'Suave', type: 'recovery', duration_s: 2 * 60, startW: 150, endW: 150 },
+      { name: 'Ritmo IM 3/3 (180)', type: 'interval', duration_s: 3 * 60, startW: 180, endW: 180 },
+      { name: 'Suave', type: 'cooldown', duration_s: 17 * 60, startW: 150, endW: 120 },
+    ],
+  },
+  {
     id: 'plan-2026-10-18-bigday',
     name: "Dom 18/10 · BIG DAY bici 4:00 a 180 W · 90 g/h (come cada 15')",
     steps: [
