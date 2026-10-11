@@ -8,6 +8,30 @@
 
 const PRESET_WORKOUTS = [
   {
+    id: 'plan-2026-10-18-bigday',
+    name: "Dom 18/10 · BIG DAY bici 4:00 a 180 W · 90 g/h (come cada 15')",
+    steps: [
+      { name: 'Arranque tras nadar (deja bajar la FC)', type: 'warmup', duration_s: 20 * 60, startW: 140, endW: 165 },
+      { name: 'Primera hora: 10-15 W por debajo (168)', type: 'steady', duration_s: 40 * 60, startW: 168, endW: 168 },
+      { name: 'Bloque central ritmo IM (180) · FC > 135 sostenida → 175', type: 'steady', duration_s: 150 * 60, startW: 180, endW: 180 },
+      { name: 'Última media hora: SOSTÉN los vatios (180)', type: 'interval', duration_s: 30 * 60, startW: 180, endW: 180 },
+    ],
+  },
+  {
+    id: 'plan-2026-10-14-ss',
+    name: "Mié 14/10 · Calidad 3×15' sweet spot 232 W (antes de Taipéi)",
+    steps: [
+      { name: 'Calentamiento', type: 'warmup', duration_s: 15 * 60, startW: 125, endW: 175 },
+      { name: 'Sweet spot 1/3 (232) · FC > 158 → -5 W', type: 'interval', duration_s: 15 * 60, startW: 232, endW: 232 },
+      { name: 'Suave', type: 'recovery', duration_s: 5 * 60, startW: 150, endW: 150 },
+      { name: 'Sweet spot 2/3 (232)', type: 'interval', duration_s: 15 * 60, startW: 232, endW: 232 },
+      { name: 'Suave', type: 'recovery', duration_s: 5 * 60, startW: 150, endW: 150 },
+      { name: 'Sweet spot 3/3 (232)', type: 'interval', duration_s: 15 * 60, startW: 232, endW: 232 },
+      { name: 'Base', type: 'steady', duration_s: 10 * 60, startW: 165, endW: 165 },
+      { name: 'Vuelta a la calma', type: 'cooldown', duration_s: 10 * 60, startW: 150, endW: 120 },
+    ],
+  },
+  {
     id: 'plan-2026-10-10-larga',
     name: "Sáb 10/10 · Bici larga 2:30 · 2×30' ritmo IM 176 W (FTP 263) · come cada 15'",
     steps: [
