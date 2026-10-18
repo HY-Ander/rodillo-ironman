@@ -8,6 +8,32 @@
 
 const PRESET_WORKOUTS = [
   {
+    id: 'plan-2026-10-20-ftp',
+    name: "Mar 20/10 · TEST FTP 20' (270 W, VENTILADOR) · cadencia con el cambio, sin acelerones",
+    steps: [
+      { name: 'Calentamiento', type: 'warmup', duration_s: 15 * 60, startW: 120, endW: 180 },
+      { name: 'Activación 1/3', type: 'interval', duration_s: 60, startW: 290, endW: 290 },
+      { name: 'Suave', type: 'recovery', duration_s: 60, startW: 140, endW: 140 },
+      { name: 'Activación 2/3', type: 'interval', duration_s: 60, startW: 290, endW: 290 },
+      { name: 'Suave', type: 'recovery', duration_s: 60, startW: 140, endW: 140 },
+      { name: 'Activación 3/3', type: 'interval', duration_s: 60, startW: 290, endW: 290 },
+      { name: 'Suave', type: 'recovery', duration_s: 60, startW: 140, endW: 140 },
+      { name: 'Suave antes del test', type: 'recovery', duration_s: 5 * 60, startW: 140, endW: 140 },
+      { name: "TEST 20' · +5 W cada 4-5' si vas sobrado · últimos 5' a tope · 88-92 rpm", type: 'interval', duration_s: 20 * 60, startW: 270, endW: 270 },
+      { name: 'Vuelta a la calma', type: 'cooldown', duration_s: 10 * 60, startW: 140, endW: 100 },
+    ],
+  },
+  {
+    id: 'plan-2026-10-24-bigday',
+    name: "Sáb 24/10 · BIG DAY bici 4:00 a 180 W · 90 g/h (come cada 15') · se ajusta tras el test",
+    steps: [
+      { name: 'Arranque tras nadar (deja bajar la FC)', type: 'warmup', duration_s: 20 * 60, startW: 140, endW: 165 },
+      { name: 'Primera hora: 10-15 W por debajo (168)', type: 'steady', duration_s: 40 * 60, startW: 168, endW: 168 },
+      { name: 'Bloque central ritmo IM (180) · FC > 135 sostenida → 175', type: 'steady', duration_s: 150 * 60, startW: 180, endW: 180 },
+      { name: 'Última media hora: SOSTÉN los vatios (180)', type: 'interval', duration_s: 30 * 60, startW: 180, endW: 180 },
+    ],
+  },
+  {
     id: 'plan-2026-10-17-activacion',
     name: "Sáb 17/10 · Activación 45' con 3×3' a 180 W (víspera del Big Day)",
     steps: [
