@@ -8,6 +8,16 @@
 
 const PRESET_WORKOUTS = [
   {
+    id: 'plan-2026-10-24-bigday-430',
+    name: "Sáb 24/10 · BIG DAY bici 4:30 a 180 W (USA ESTE) · 90 g/h, come cada 15'",
+    steps: [
+      { name: 'Arranque tras nadar (deja bajar la FC)', type: 'warmup', duration_s: 20 * 60, startW: 140, endW: 165 },
+      { name: 'Primera hora: 10-15 W por debajo (168)', type: 'steady', duration_s: 40 * 60, startW: 168, endW: 168 },
+      { name: 'Bloque central ritmo IM (180) · FC > 135 sostenida → 175', type: 'steady', duration_s: 180 * 60, startW: 180, endW: 180 },
+      { name: 'Última media hora: SOSTÉN los vatios (180)', type: 'interval', duration_s: 30 * 60, startW: 180, endW: 180 },
+    ],
+  },
+  {
     id: 'plan-2026-10-20-ftp',
     name: "Mar 20/10 · TEST FTP 20' (270 W, VENTILADOR) · cadencia con el cambio, sin acelerones",
     steps: [
