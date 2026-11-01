@@ -8,6 +8,29 @@
 
 const PRESET_WORKOUTS = [
   {
+    id: 'plan-2026-11-04-sweetspot',
+    name: "Mié 4/11 · Sweet spot 3 × 15' a 248 W (FTP 272 · VENTILADOR · cadencia con el cambio)",
+    steps: [
+      { name: 'Calentamiento', type: 'warmup', duration_s: 15 * 60, startW: 130, endW: 190 },
+      { name: 'Sweet spot 1/3 (248)', type: 'interval', duration_s: 15 * 60, startW: 248, endW: 248 },
+      { name: 'Suave', type: 'recovery', duration_s: 5 * 60, startW: 140, endW: 140 },
+      { name: 'Sweet spot 2/3 (248)', type: 'interval', duration_s: 15 * 60, startW: 248, endW: 248 },
+      { name: 'Suave', type: 'recovery', duration_s: 5 * 60, startW: 140, endW: 140 },
+      { name: 'Sweet spot 3/3 (248) · FC > 150 → 240', type: 'interval', duration_s: 15 * 60, startW: 248, endW: 248 },
+      { name: 'Vuelta a la calma', type: 'cooldown', duration_s: 20 * 60, startW: 150, endW: 110 },
+    ],
+  },
+  {
+    id: 'plan-2026-11-07-larga-500',
+    name: "Sáb 7/11 · BICI LARGA 5:00 a 180 W (ACOPLES · FC ≤135, última hora ≤140 · 90 g/h)",
+    steps: [
+      { name: 'Arranque', type: 'warmup', duration_s: 20 * 60, startW: 140, endW: 170 },
+      { name: 'Entrada (172) · FC ≤125', type: 'steady', duration_s: 40 * 60, startW: 172, endW: 172 },
+      { name: 'Bloque IM (180) · FC > 135 sostenida → −5 W', type: 'steady', duration_s: 180 * 60, startW: 180, endW: 180 },
+      { name: 'Última hora (180) · FC > 140 → −5 W', type: 'steady', duration_s: 60 * 60, startW: 180, endW: 180 },
+    ],
+  },
+  {
     id: 'plan-2026-10-24-bigday-430-185',
     name: "Sáb 24/10 · BIG DAY bici 4:30 a 185 W (FTP 272 · USA ESTE) · 90 g/h, come cada 15'",
     steps: [
