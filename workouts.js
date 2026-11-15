@@ -8,6 +8,28 @@
 
 const PRESET_WORKOUTS = [
   {
+    id: 'plan-2026-11-17-tempo',
+    name: "Mar 17/11 · Tempo 2 × 20' a 230 W (VENTILADOR · 85-90 rpm · FC ≤150)",
+    steps: [
+      { name: 'Calentamiento', type: 'warmup', duration_s: 15 * 60, startW: 130, endW: 190 },
+      { name: 'Tempo 1/2 (230) · FC > 150 → 220', type: 'interval', duration_s: 20 * 60, startW: 230, endW: 230 },
+      { name: 'Suave', type: 'recovery', duration_s: 5 * 60, startW: 140, endW: 140 },
+      { name: 'Tempo 2/2 (230) · FC > 150 → 220', type: 'interval', duration_s: 20 * 60, startW: 230, endW: 230 },
+      { name: 'Ritmo IM (180) · cadencia 85', type: 'steady', duration_s: 15 * 60, startW: 180, endW: 180 },
+      { name: 'Vuelta a la calma', type: 'cooldown', duration_s: 15 * 60, startW: 150, endW: 110 },
+    ],
+  },
+  {
+    id: 'plan-2026-11-21-larga-400',
+    name: "Sáb 21/11 · ÚLTIMA BICI LARGA 4:00 a 180 W (ACOPLES · FC ≤135, última hora ≤140 · 90 g/h)",
+    steps: [
+      { name: 'Arranque', type: 'warmup', duration_s: 20 * 60, startW: 140, endW: 170 },
+      { name: 'Entrada (172) · FC ≤125', type: 'steady', duration_s: 40 * 60, startW: 172, endW: 172 },
+      { name: 'Bloque IM (180) · FC > 135 sostenida → −5 W', type: 'steady', duration_s: 120 * 60, startW: 180, endW: 180 },
+      { name: 'Última hora (180) · FC > 140 → −5 W', type: 'steady', duration_s: 60 * 60, startW: 180, endW: 180 },
+    ],
+  },
+  {
     id: 'plan-2026-11-10-tempo',
     name: "Mar 10/11 · Tempo 2 × 25' a 230 W (VENTILADOR · 85-90 rpm · FC ≤150)",
     steps: [
