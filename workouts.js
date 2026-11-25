@@ -8,6 +8,20 @@
 
 const PRESET_WORKOUTS = [
   {
+    id: 'plan-2026-11-25-afinado-200',
+    name: "Mié 25/11 · Afinado 75' · 3 × 10' a 200 W (CALIBRA ANTES · 85-90 rpm · FC ≤140)",
+    steps: [
+      { name: 'Calentamiento', type: 'warmup', duration_s: 15 * 60, startW: 130, endW: 190 },
+      { name: 'Serie 1/3 (200) · FC > 140 → 195', type: 'interval', duration_s: 10 * 60, startW: 200, endW: 200 },
+      { name: 'Suave', type: 'recovery', duration_s: 5 * 60, startW: 140, endW: 140 },
+      { name: 'Serie 2/3 (200) · FC > 140 → 195', type: 'interval', duration_s: 10 * 60, startW: 200, endW: 200 },
+      { name: 'Suave', type: 'recovery', duration_s: 5 * 60, startW: 140, endW: 140 },
+      { name: 'Serie 3/3 (200) · FC > 140 → 195', type: 'interval', duration_s: 10 * 60, startW: 200, endW: 200 },
+      { name: 'Ritmo IM (180) · cadencia 85', type: 'steady', duration_s: 15 * 60, startW: 180, endW: 180 },
+      { name: 'Vuelta a la calma', type: 'cooldown', duration_s: 5 * 60, startW: 140, endW: 110 },
+    ],
+  },
+  {
     id: 'plan-2026-11-17-tempo',
     name: "Mar 17/11 · Tempo 2 × 20' a 230 W (VENTILADOR · 85-90 rpm · FC ≤150)",
     steps: [
