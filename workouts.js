@@ -8,6 +8,16 @@
 
 const PRESET_WORKOUTS = [
   {
+    id: 'plan-2026-11-28-ensayo-230',
+    name: "Sáb 28/11 · ENSAYO GENERAL 2:30 a 180 W (ACOPLES · FC ≤130-135 · 90 g/h · brick 15')",
+    steps: [
+      { name: 'Arranque', type: 'warmup', duration_s: 20 * 60, startW: 140, endW: 170 },
+      { name: 'Entrada (172) · FC ≤125', type: 'steady', duration_s: 20 * 60, startW: 172, endW: 172 },
+      { name: 'Ritmo carrera 1/2 (180) · FC > 135 → −5 W', type: 'steady', duration_s: 55 * 60, startW: 180, endW: 180 },
+      { name: 'Ritmo carrera 2/2 (180) · FC > 135 → −5 W', type: 'steady', duration_s: 55 * 60, startW: 180, endW: 180 },
+    ],
+  },
+  {
     id: 'plan-2026-11-25-afinado-200',
     name: "Mié 25/11 · Afinado 75' · 3 × 10' a 200 W (CALIBRA ANTES · 85-90 rpm · FC ≤140)",
     steps: [
